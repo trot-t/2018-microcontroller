@@ -1,0 +1,23 @@
+\documentclass[a4paper]{article} 
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{tikz}
+
+\title{Лекция №2}
+\author{студент                         } 
+% Конец преамбулы
+\begin{document}
+\maketitle
+\begin{tikzpicture}
+	\newcommand{\alfa}{60}
+	\newcommand{\D}{8}
+	\newcommand{\teta}{25}
+	\newcommand{\XX}{5}
+	% треугольник
+	\draw[->] (0,0) -- (\D,0) node[below] {$\vec{e}_A$} ;
+	\draw[->] (0,0) -- ({\D*cos(\alfa)},{\D*sin(\alfa)}) node[above left] {$-\vec{e}_C$} ;
+	\draw[very thin] (\D,0) -- ({\D*cos(\alfa)},{\D*sin(\alfa)});
+	% вектор
+	\draw[red,->] (0,0) -- ({\XX*cos(\teta)},{\XX*sin(\teta)});
+\end{tikzpicture} 
+\end{document}
