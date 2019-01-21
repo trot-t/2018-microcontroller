@@ -1,0 +1,58 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{tikz}
+\usepackage[european,cuteinductors,smartlabels]{circuitikz} 
+
+% Конец преамбулы
+\begin{document}
+\section{Перевод весов дискретных состояний ключей в расходы ШИМ } 
+\begin{tikzpicture}[scale=0.8]
+\newcommand{\D}{8}
+\newcommand{\vx}{(5/8*\D)}
+\newcommand{\vy}{(2/8*\D)}
+	\draw[thick] (0,0) node[below left=-0.3cm] {{\large $\begin{array}{c}(111)\\(000)\end{array}$}{\huge$m_1$}} -- ({\D},0) node[below right] {{\huge$m_2$} {\large$(100)$}} -- 
+	({\D/2},{\D*sqrt(3)/2}) node[above] {{\huge$m_3$} {\large$(110)$}} -- (0,0);
+        % сам вектор
+	\draw[red,very thick,->,>=stealth'] (0,0) -- ({\vx}, {\vy}) node(v) {};
+	\draw ({\vx}, {\vy}) node[above] {$U$};
+	\draw[thin, dashed] ({\D*sqrt(3)/2},0) arc(0:60:{\D*sqrt(3)/2});
+\end{tikzpicture} 
+\vspace{1cm}
+
+\hspace{-2cm}
+\begin{tikzpicture}[scale=0.8]
+\newcommand{\D}{9.5}
+	\draw[->,>=stealth'] (0,0) -- (0,7);
+	\draw[->,>=stealth'] (0,1) -- (8,1) node[right] {C};
+	\draw[->,>=stealth'] (0,3) -- (8,3) node[right] {B}; 
+	\draw[->,>=stealth'] (0,5) -- (8,5) node[right] {A};
+	\draw[->,>=stealth',thin] (0,-0.2) -- (1,-0.2) node[midway, above] {$\frac{m_1}{T}$} -- (3,-0.2) 
+	node[midway, above] {$\frac{m_2}{T}$} -- (6,-0.2) node[midway, above] {$\frac{m_3}{T}$} -- (7,-0.2) 
+	node[midway, above] {$\frac{m_1}{T}$} -- (8,-0.2) node[below] {$t$};
+	\draw[thin] (0,0) -- (0,-0.6) node[below] {$0$};
+	\draw[thin,dashed] (1,5) -- (1,0); \draw[thin] (1,0) -- (1,-0.6) node[below] {$t_1$};
+	\draw[thin,dashed] (3,6) -- (3,0); \draw[thin] (3,0) -- (3,-0.6) node[below] {$t_2$};
+	\draw[thin,dashed] (6,6) -- (6,0); \draw[thin] (6,0) -- (6,-0.6) node[below] {$t_3$};
+	\draw[thin,dashed] (7,6) -- (7,0); \draw[thin] (7,0) -- (7,-0.6) node[below] {$T$};
+	\draw[ultra thick,yellow] (0,5) -- (1,5) -- (1,6) -- (7,6);
+	\draw[ultra thick,green] (0,3) -- (3,3) -- (3,4) -- (7,4);
+	\draw[ultra thick,red] (0,1) -- (6,1) -- (6,2) -- (7,2);
+
+	\draw[->,>=stealth'] ({\D+0},0) -- ({\D+0},7);	
+	\draw[->,>=stealth'] ({\D+0},1) -- ({\D+8},1) node[right] {C};
+	\draw[->,>=stealth'] ({\D+0},3) -- ({\D+8},3) node[right] {B};
+	\draw[->,>=stealth'] ({\D+0},5) -- ({\D+8},5) node[right] {A};
+        \draw[thin] ({\D+0},0) -- ({\D+0},-0.6) node[below] {$0$};
+	\draw[->,>=stealth',thin] ({\D+0},-0.2) --  ({\D+8},-0.2) node[below] {$t$};
+	\draw[thin,dashed] ({\D+0.3},5) -- ({\D+0.3},0); \draw[thin] ({\D+0.3},0) -- ({\D+0.3},-0.6); \draw ({\D+0.5},-0.6) node[below] {$t_1$};
+	\draw[thin,dashed] ({\D+2.3},6) -- ({\D+2.3},0); \draw[thin] ({\D+2.3},0) -- ({\D+2.3},-0.6) node[below] {$t_2$};
+	\draw[thin,dashed] ({\D+5.3},6) -- ({\D+5.3},0); \draw[thin] ({\D+5.3},0) -- ({\D+5.3},-0.6) node[below] {$t_3$};
+	\draw[thin,dashed] ({\D+7},6) -- ({\D+7},0); \draw[thin] ({\D+7},0) -- ({\D+7},-0.6) node[below] {$T$};
+	\draw[ultra thick,yellow] ({\D+0},5) -- ({\D+0.3},5) -- ({\D+0.3},6) -- ({\D+7},6);
+	\draw[ultra thick,green] ({\D+0},3) -- ({\D+2.3},3) -- ({\D+2.3},4) -- ({\D+7},4);
+	\draw[ultra thick,red] ({\D+0},1) -- ({\D+5.3},1) -- ({\D+5.3},2) -- ({\D+7},2);
+        
+\end{tikzpicture}
+\end{document}
