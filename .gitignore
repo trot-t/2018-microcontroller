@@ -1,0 +1,8 @@
+*.log
+*.aux
+*.out
+*.swp
+*.swo
+*.toc
+*.*~
+*.nav
