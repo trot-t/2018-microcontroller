@@ -152,6 +152,39 @@
 {\small https://github.com/rogerclarkmelbourne/Arduino\_STM32} 
 \end{frame}
 
+\begin{frame}
+\frametitle{\small инвертор}
+\begin{circuitikz}
+        \ctikzset{bipoles/length=1.0cm}
+\draw (0,4.5)to[eC](0,0);
+\draw (0,4.5) -- (7,4.5);  % плюсовая шина
+\draw(0,0)--(7,0);         % минусовая шины
+
+\draw(2,4.5)--(2,4.05);
+\draw(2,3.5)node[nigbt,bodydiode](npn1){\tiny{$VT_1$}};% 1 ряд
+\draw(2,2.95)--(2,1.55);
+\draw (2,1) node[nigbt,bodydiode](npn){\tiny{$VT_4$}};%1ряд
+\draw(2,0)--(2,0.5);
+
+\draw(4.5,4.5)--(4.5,4.05);
+\draw(4.5,3.5)node[nigbt,bodydiode](npn){\tiny{$VT_3$}};% 2 ряд
+\draw(4.5,2.95) -- (4.5,1.55);
+\draw (4.5,1) node[nigbt,bodydiode](npn){\tiny{$VT_6$}};% 2ряд
+\draw(4.5,0)--(4.5,0.5);
+
+\draw(7,4.5)--(7,4.05);
+\draw(7,3.5)node[nigbt,bodydiode](npn){\tiny{$VT_5$}};%последний ряд
+\draw(7,2.95)--(7,1.55);
+\draw (7,1) node[nigbt,bodydiode](npn){\tiny{$VT_2$}};%последний ряд
+\draw(7,0)--(7,0.5);
+
+\draw (7,1.85)   node[left]{$C$} to[short,*-] (8,1.85) to[L] (9.5,1.85);    %катуха С
+\draw (4.5,2.25) node[left]{$B$} to[short,*-] (8,2.25) to[L] (9.5,2.25);  % катуха В
+\draw (2,2.65)   node[left]{$A$} to[short,*-] (8,2.65) to[L] (9.5,2.65);
+\draw (9.5,2.65)--(9.5,1.85);
+\end{circuitikz}
+
+\end{frame}
 
 \begin{frame}
 \frametitle{\smallЛекция 1 Ковариантные координаты изображающего вектора}
