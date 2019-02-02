@@ -80,22 +80,26 @@
 \frametitle{\small Цели, к которым стремились при реализации курса} 
 \begin{itemize}
 \item упрощение системы управления с использованием ковариантных и контравариантных координат;
-\item использование дипломных проектов студентов предыдущих выпусков;
-\item создание лабораторных стендов по тематике кафедры с перспективой на использование российских разработок;
+%\item использование дипломных проектов студентов; % предыдущих выпусков;
+\item создание лабораторных стендов; % по тематике кафедры с перспективой на использование российских разработок;
 \item использование свободного open-source программного обеспечения;
 \item оформление УМКД;
-\item ... будет сформулирована в результатах.
+%\item ... будет сформулирована в результатах.
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{\smallвнутренние ресурсы, на которые опирались}
 \begin{itemize}
-	\itemНа кафедре есть курсы по управлению приводом с помощью контроллеров ОМРОН; 
-	\itemесть дешевые микроконтроллеры(SoC); увеличилась скорость, разрядность, есть функции управления эл.двигателями; 
-	\itemпредыдущий курс \enquote{решение интерфейсных задач с помощью микроконтроллера at89} Кекконен А.В.,Тимофеев А.А.,который выполняется на asm,C в ``Keil''(8 установок); 
+%	\itemНа кафедре есть курсы по управлению приводом с помощью контроллеров ОМРОН; 
+%	\itemесть дешевые микроконтроллеры(SoC) с функциями управления эл.двигателями; 
+	\itemпредыдущий курс \enquote{решение интерфейсных задач с помощью микроконтроллера at89} Кекконен А.В.,Тимофеев А.А. (8 установок);%,который выполняется на asm,C в ``Keil''(8 установок); 
 \itemобсуждалось (приводчикам нужны приводы) с Татаринцевым Н.И., Беловым М.П.;
-\itemподелили:Татаринцев --двигатель постоянного тока, Прокшин -- асинхронный двигатель.  
+\itemподелили:
+	\begin{itemize}
+		\item Татаринцев --двигатель постоянного тока, 
+		\item Прокшин -- асинхронный двигатель.
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -103,17 +107,15 @@
 \begin{frame}
 \frametitle{\smallпрограммы -- бесплатно}
 \begin{itemize}
-	\item в ОС Linux всё необходимое присутствует  ``из-коробки'':
+	\item в Linux всё есть ``из-коробки'':
 		\begin{itemize}
-		\item кросс-компилятор arm-none-eabi-gcc
-		\item компилятор для ``родной'' системы gcc, g++
-		\item  java-1.8.0-openjdk;
+		\item кросс-компилятор arm,%-none-eabi-gcc
+		\item компиляторы для ``родной'' системы,%gcc, g++
+		\item  java;
 		\end{itemize}
-	\item эти компиляторы возможно запускать в среде эмуляции Линукс(cygwin) в ОС Windows;
-	\item STM выкупила  и сделала Atollic Studio бесплатным
-		для своих микроконтроллеров. \href{atollic.com}{Atollic Studio} работает на всех ОС;
-	\item www.ac6.fr выпускает бесплатный компилятор \href{www.openstm32.org}{System Workbench} 
-на среде Eclipse и работает на всех операционных системах.
+	\item Windows -- в режиме эмуляции Линукс;
+	\item Atollic Studio 
+	\item System Workbench (ac6) 
 \end{itemize}
 \end{frame}
 
@@ -127,61 +129,60 @@
 \end{minipage}
 \end{center}
 \end{figure} 
-\begin{tabular}{lll}
-	1&микроконтроллер		&200 руб.\\
-	2&аппаратный программатор	&200-300 руб.\\
-	3&светодиод,резистор,провода&100 руб.\\
-	4&драйвер силовых ключей&в единственном экз.\\
-	5&асинхронный двигатель&в единственном экз.\\
-	6&силовой блок питания&в единственном экз.\\
-	7&осциллограф&в единственном экз.
+\begin{tabular}{ll}
+микроконтроллер		&200 руб.\\
+\only<1>{аппаратный программатор	&200-300 руб.\\}
+\only<2>{\\}
+светодиод,резистор,провода&100 руб.\\
+драйвер силовых ключей&диплом Архипова\\
+асинхронный двигатель&есть\\
+%	6&силовой блок питания&в единственном экз.\\
+%	7&осциллограф&в единственном экз.
 \end{tabular}
 \end{frame}
 
 
-\begin{frame}
-\frametitle{\smallудача -- не нужен аппаратный программатор}
-оказалось, что возможно использовать начальную область памяти самого микроконтроллера для программы-загрузчика. После окончания работы программы-загрузчика управление
-передается в область памяти сразу за загрузчиком.
-	\vspace{0.5cm}
-
-описание на русском https://habr.com/post/403007/\\
+%\begin{frame}
+%\frametitle{\smallудача -- не нужен аппаратный программатор}
+%оказалось, что возможно использовать начальную область памяти самого микроконтроллера для программы-загрузчика. После окончания работы программы-загрузчика управление
+%передается в область памяти сразу за загрузчиком.
+%	\vspace{0.5cm}
+%
+%описание на русском https://habr.com/post/403007/\\
 %на английском %http://www.rogerclark.net/stm32f103-and-maple-maple-mini-with-arduino-1-5-x-ide/
-
-	Сама  программа загрузчик -- \\
-{\small https://github.com/rogerclarkmelbourne/Arduino\_STM32} 
-\end{frame}
+%
+%	Сама  программа загрузчик -- \\
+%{\small https://github.com/rogerclarkmelbourne/Arduino\_STM32} 
+%\end{frame}
 
 \begin{frame}
 \frametitle{\small инвертор}
+\hspace{-1cm}
 \begin{circuitikz}
-        \ctikzset{bipoles/length=1.0cm}
-\draw (0,4.5)to[eC](0,0);
-\draw (0,4.5) -- (7,4.5);  % плюсовая шина
-\draw(0,0)--(7,0);         % минусовая шины
+\ctikzset{bipoles/length=1.0cm}
+\draw (0,4.05) to[eC] (0,0.45);
 
-\draw(2,4.5)--(2,4.05);
-\draw(2,3.5)node[nigbt,bodydiode](npn1){\tiny{$VT_1$}};% 1 ряд
-\draw(2,2.95)--(2,1.55);
-\draw (2,1) node[nigbt,bodydiode](npn){\tiny{$VT_4$}};%1ряд
-\draw(2,0)--(2,0.5);
+\draw(1.25,3.5)node[nigbt,bodydiode](npn1){};%{\tiny{$VT_1$}};% 1 ряд 
+\draw (1.25,1) node[nigbt,bodydiode](npn4){};%{\tiny{$VT_4$}};%1ряд
+\draw (npn1.S) -- (npn4.D);
 
-\draw(4.5,4.5)--(4.5,4.05);
-\draw(4.5,3.5)node[nigbt,bodydiode](npn){\tiny{$VT_3$}};% 2 ряд
-\draw(4.5,2.95) -- (4.5,1.55);
-\draw (4.5,1) node[nigbt,bodydiode](npn){\tiny{$VT_6$}};% 2ряд
-\draw(4.5,0)--(4.5,0.5);
 
-\draw(7,4.5)--(7,4.05);
-\draw(7,3.5)node[nigbt,bodydiode](npn){\tiny{$VT_5$}};%последний ряд
-\draw(7,2.95)--(7,1.55);
-\draw (7,1) node[nigbt,bodydiode](npn){\tiny{$VT_2$}};%последний ряд
-\draw(7,0)--(7,0.5);
+\draw(3,3.5)node[nigbt,bodydiode](npn3){};%{\tiny{$VT_3$}};% 2 ряд 
+\draw (3,1) node[nigbt,bodydiode](npn6){};%{\tiny{$VT_6$}};% 2ряд
+\draw (npn3.S) -- (npn6.D);
 
-\draw (7,1.85)   node[left]{$C$} to[short,*-] (8,1.85) to[L] (9.5,1.85);    %катуха С
-\draw (4.5,2.25) node[left]{$B$} to[short,*-] (8,2.25) to[L] (9.5,2.25);  % катуха В
-\draw (2,2.65)   node[left]{$A$} to[short,*-] (8,2.65) to[L] (9.5,2.65);
-\draw (9.5,2.65)--(9.5,1.85);
+
+\draw(4.75,3.5)node[nigbt,bodydiode](npn5){};%{\tiny{$VT_5$}};%последний ряд 
+\draw (4.75,1) node[nigbt,bodydiode](npn2){};%{\tiny{$VT_2$}};%последний ряд
+\draw (npn5.S) -- (npn2.D);
+
+
+\draw (0,4.05) -- (npn1.D) node[above]{1} -- (npn3.D) node[above]{3} -- (npn5.D) node[above]{5}; % плюсовая шина
+\draw (0,0.45) -- (npn4.S) node[below]{4} -- (npn6.S) node[below]{6} -- (npn2.S) node[below]{2}; % минусовая шина
+\draw (4.75,1.85)   node[left]{\small$C$} to[short,*-] (5.2,1.85) to[L] (6,1.85);    %катуха С
+\draw (3,2.25) node[left]{\small$B$} to[short,*-] (5.2,2.25) to[L] (6,2.25);  % катуха В
+\draw (1.25,2.65)   node[left]{\small$A$} to[short,*-] (5.2,2.65) to[L] (6,2.65);
+\draw (6,2.65)--(6,1.85);
 \end{circuitikz}
 
 \end{frame}
@@ -189,46 +190,48 @@
 \begin{frame}
 \frametitle{\smallЛекция 1 Ковариантные координаты изображающего вектора}
 $$
-        \vec{f} = \frac{2}{3}\left(f_{a_{\!\perp}}\!\vec{e}_a + f_{b_{\!\perp}}\!\vec{e}_b + f_{c_{\!\perp}}\!\vec{e}_c\right)
+	\vec{f} = \frac{2}{3}\left(\vec{f}_{a_{\!\perp}} + \vec{f}_{b_{\!\perp}} + \vec{f}_{c_{\!\perp}}\right)
 $$
 %
 \begin{tabular}{cl}
 \begin{minipage}[h]{0.3\linewidth}
 \begin{tikzpicture}[scale=2]
 \newcommand{\D}){8}
-\draw[->, very thin] (0,0) -- (1.00, 0.00);
-\draw[->, very thin] (0,0) -- (0.95, 0.31);
-\draw[->, very thin] (0,0) -- (0.81, 0.59);
+\draw[->, very thin,>=stealth'] (0,0) -- (1.00, 0.00);
+\draw[->, very thin,>=stealth'] (0,0) -- ({cos(120)},{sin(120)});
+\draw[->, very thin,>=stealth'] (0,0) -- ({cos(240)},{sin(240)});
+%\draw[->, very thin] (0,0) -- (0.95, 0.31);
+%\draw[->, very thin] (0,0) -- (0.81, 0.59);
 %\draw[->, very thin] (0,0) -- (0.59, 0.81);
 \draw[yellow, very thick,->,>=stealth'] (0,0) -- (0.59,0);
 \draw[green, very thick,->,>=stealth'] (0,0) -- (-0.20,0.35);
 \draw[red, very thick,->,>=stealth'] (0,0) -- (0.50,0.86);
 \draw[->,thick] (0,0) -- (0.59, 0.81) node[above right] {$\vec{f}$};
-\draw[->, very thin] (0,0) -- (0.31, 0.95);
-\draw[->, very thin] (0,0) -- (0.00, 1.00);
-\draw[->, very thin] (0,0) -- (-0.31, 0.95);
-\draw[->, very thin] (0,0) -- (-0.59, 0.81);
-\draw[->, very thin] (0,0) -- (-0.81, 0.59);
-\draw[->, very thin] (0,0) -- (-0.95, 0.31);
-\draw[->, very thin] (0,0) -- (-1.00, 0.00);
-\draw[->, very thin] (0,0) -- (-0.95, -0.31);
-\draw[->, very thin] (0,0) -- (-0.81, -0.59);
-\draw[->, very thin] (0,0) -- (-0.59, -0.81);
-\draw[->, very thin] (0,0) -- (-0.31, -0.95);
-\draw[->, very thin] (0,0) -- (-0.00, -1.00);
-\draw[->, very thin] (0,0) -- (0.31, -0.95);
-\draw[->, very thin] (0,0) -- (0.59, -0.81);
-\draw[->, very thin] (0,0) -- (0.81, -0.59);
-\draw[->, very thin] (0,0) -- (0.95, -0.31);
+%\draw[->, very thin] (0,0) -- (0.31, 0.95);
+%\draw[->, very thin] (0,0) -- (0.00, 1.00);
+%\draw[->, very thin] (0,0) -- (-0.31, 0.95);
+%\draw[->, very thin] (0,0) -- (-0.59, 0.81);
+%\draw[->, very thin] (0,0) -- (-0.81, 0.59);
+%\draw[->, very thin] (0,0) -- (-0.95, 0.31);
+%\draw[->, very thin] (0,0) -- (-1.00, 0.00);
+%\draw[->, very thin] (0,0) -- (-0.95, -0.31);
+%\draw[->, very thin] (0,0) -- (-0.81, -0.59);
+%\draw[->, very thin] (0,0) -- (-0.59, -0.81);
+%\draw[->, very thin] (0,0) -- (-0.31, -0.95);
+%\draw[->, very thin] (0,0) -- (-0.00, -1.00);
+%\draw[->, very thin] (0,0) -- (0.31, -0.95);
+%\draw[->, very thin] (0,0) -- (0.59, -0.81);
+%\draw[->, very thin] (0,0) -- (0.81, -0.59);
+%\draw[->, very thin] (0,0) -- (0.95, -0.31);
 \end{tikzpicture} 
 \end{minipage}
 &
 \begin{minipage}[h]{0.7\linewidth}
 	{\small\begin{itemize}
 \item измеряемые величины -- ковариантные координаты вектора; 
-\item физическая величина -- всегда произведение двух ко- и контра-координат;
-\item изображающий вектор симметричной системы есть $2/3 (I_a + I_b + I_c)$;
-\item рисунок -- есть результат 1й практической работы.
+\item физическая величина -- всегда произведение  ко- и контра-вариантных координат;
+%\item изображающий вектор симметричной системы есть $2/3 (I_a + I_b + I_c)$;
+%\item рисунок -- есть результат 1й практической работы.
 \end{itemize}
 	}
 \end{minipage}
@@ -314,15 +317,18 @@ $$
 \begin{frame}
 \frametitle{\smallПреобразование ковариантных координат в контравариантные}
 
-гладкость вектора тока.\\
-изображающий вектор есть центр тяжести \enquote{весов} дискретных состояний, возможно описание с помощью правила рычага Архимеда для весов и плечей.\\
-изображающий вектор есть векторная сумма \enquote{весов} контравариантных координат векторов.
+%гладкость вектора тока.\\
+\begin{itemize}
+	\itemизображающий вектор -- есть центр тяжести \enquote{весов} дискретных состояний, правило рычага Архимеда;% для весов и плечей.\\
+	\itemизображающий вектор есть векторная сумма \enquote{весов}, т.е. контравариантных координат векторов.
+\end{itemize}
 $$
         \left\{
         \begin{array}{lcl}
                 m_2 &=& {\displaystyle \frac{4}{3}\left(S_3 - \frac{S_2}{2}\right)} \\
                 m_3 &=& {\displaystyle \frac{4}{3}\left(S_2 - \frac{S_3}{2}\right)} \\
-                m_1 &=& {\displaystyle 1 - \frac{2}{3}\left(S_2 + S_3\right)} \\
+%                m_1 &=& {\displaystyle 1 - \frac{2}{3}\left(S_2 + S_3\right)} \\
+		1 &=& m_1 + m_2 + m_3 
         \end{array}
         \right.
 $$
@@ -332,8 +338,8 @@ $$
 \frametitle{\smallПеревод весов дискретных состояний ключей в расходы ШИМ}
 	\hspace{-1.7cm}
 \begin{tabular}{cc}
-\begin{minipage}[h]{0.3\linewidth}
-\begin{tikzpicture}[scale=0.3]
+\begin{minipage}[h]{0.5\linewidth}
+\begin{tikzpicture}[scale=0.5]
 \newcommand{\D}{8}
 \newcommand{\vx}{(5/8*\D)}
 \newcommand{\vy}{(2/8*\D)}
@@ -346,7 +352,7 @@ $$
 \end{tikzpicture}
 \end{minipage}
 &
-\begin{minipage}[h]{0.3\linewidth}
+\begin{minipage}[h]{0.5\linewidth}
 \begin{tikzpicture}[scale=0.54]
 \newcommand{\D}{8.5}
         \draw[->,>=stealth'] (0,0) -- (0,6.5);
@@ -365,19 +371,19 @@ $$
         \draw[ultra thick,green] (0,3) -- (3,3) -- (3,4) -- (7,4);
         \draw[ultra thick,red] (0,1) -- (6,1) -- (6,2) -- (7,2);
 
-        \draw[->,>=stealth'] ({\D+0},0) -- ({\D+0},6.5);
-        \draw[->,>=stealth'] ({\D+0},1) -- ({\D+7.5},1) node[right=-0.17cm] {C};
-        \draw[->,>=stealth'] ({\D+0},3) -- ({\D+7.5},3) node[right=-0.17cm] {B};
-        \draw[->,>=stealth'] ({\D+0},5) -- ({\D+7.5},5) node[right=-0.17cm] {A};
-        \draw[thin] ({\D+0},0) -- ({\D+0},-0.6) node[below] {$0$};
-        \draw[->,>=stealth',thin] ({\D+0},-0.2) --  ({\D+8},-0.2) node[below] {$t$};
-        \draw[thin,dashed] ({\D+0.3},5) -- ({\D+0.3},0); \draw[thin] ({\D+0.3},0) -- ({\D+0.3},-0.6); \draw ({\D+0.5},-0.6) node[below] {$t_1$};
-        \draw[thin,dashed] ({\D+2.3},6) -- ({\D+2.3},0); \draw[thin] ({\D+2.3},0) -- ({\D+2.3},-0.6) node[below] {$t_2$};
-        \draw[thin,dashed] ({\D+5.3},6) -- ({\D+5.3},0); \draw[thin] ({\D+5.3},0) -- ({\D+5.3},-0.6) node[below] {$t_3$};
-        \draw[thin,dashed] ({\D+7},6) -- ({\D+7},0); \draw[thin] ({\D+7},0) -- ({\D+7},-0.6) node[below] {$T$};
-        \draw[ultra thick,yellow] ({\D+0},5) -- ({\D+0.3},5) -- ({\D+0.3},6) -- ({\D+7},6);
-        \draw[ultra thick,green] ({\D+0},3) -- ({\D+2.3},3) -- ({\D+2.3},4) -- ({\D+7},4);
-        \draw[ultra thick,red] ({\D+0},1) -- ({\D+5.3},1) -- ({\D+5.3},2) -- ({\D+7},2);
+%        \draw[->,>=stealth'] ({\D+0},0) -- ({\D+0},6.5);
+%        \draw[->,>=stealth'] ({\D+0},1) -- ({\D+7.5},1) node[right=-0.17cm] {C};
+%        \draw[->,>=stealth'] ({\D+0},3) -- ({\D+7.5},3) node[right=-0.17cm] {B};
+%        \draw[->,>=stealth'] ({\D+0},5) -- ({\D+7.5},5) node[right=-0.17cm] {A};
+%        \draw[thin] ({\D+0},0) -- ({\D+0},-0.6) node[below] {$0$};
+%        \draw[->,>=stealth',thin] ({\D+0},-0.2) --  ({\D+8},-0.2) node[below] {$t$};
+%        \draw[thin,dashed] ({\D+0.3},5) -- ({\D+0.3},0); \draw[thin] ({\D+0.3},0) -- ({\D+0.3},-0.6); \draw ({\D+0.5},-0.6) node[below] {$t_1$};
+%        \draw[thin,dashed] ({\D+2.3},6) -- ({\D+2.3},0); \draw[thin] ({\D+2.3},0) -- ({\D+2.3},-0.6) node[below] {$t_2$};
+%        \draw[thin,dashed] ({\D+5.3},6) -- ({\D+5.3},0); \draw[thin] ({\D+5.3},0) -- ({\D+5.3},-0.6) node[below] {$t_3$};
+%        \draw[thin,dashed] ({\D+7},6) -- ({\D+7},0); \draw[thin] ({\D+7},0) -- ({\D+7},-0.6) node[below] {$T$};
+%        \draw[ultra thick,yellow] ({\D+0},5) -- ({\D+0.3},5) -- ({\D+0.3},6) -- ({\D+7},6);
+%        \draw[ultra thick,green] ({\D+0},3) -- ({\D+2.3},3) -- ({\D+2.3},4) -- ({\D+7},4);
+%        \draw[ultra thick,red] ({\D+0},1) -- ({\D+5.3},1) -- ({\D+5.3},2) -- ({\D+7},2);
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
