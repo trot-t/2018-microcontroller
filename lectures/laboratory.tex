@@ -11,6 +11,8 @@
 \usepackage{cancel}
 \usepackage{csquotes}
 \newcommand{\quotes}[1]{``#1''}
+\usetikzlibrary{calc}
+
 
 %\usepackage{pgfplots}
 %\usepackage[left=1cm,right=1cm, top=1cm,bottom=1cm,bindingoffset=0cm]{geometry}
@@ -157,34 +159,57 @@
 
 \begin{frame}
 \frametitle{\small инвертор}
-\hspace{-1cm}
-\begin{circuitikz}
-\ctikzset{bipoles/length=1.0cm}
-\draw (0,4.05) to[eC] (0,0.45);
+\hspace{-1.2cm}
+\begin{tabular}{cc} 
+\begin{minipage}[h]{0.5\linewidth}
 
-\draw(1.25,3.5)node[nigbt,bodydiode](npn1){};%{\tiny{$VT_1$}};% 1 ряд 
-\draw (1.25,1) node[nigbt,bodydiode](npn4){};%{\tiny{$VT_4$}};%1ряд
+\begin{circuitikz}[scale=1]
+\ctikzset{bipoles/length=1.0cm}
+
+\draw(1.25,2.65)node[nigbt,bodydiode](npn1){};% 1 ряд 
+%\node[nigbt,bodydiode] (npn1) at (1.25,3.1) {};% 1 ряд 
+\draw (1.25,.55) node[nigbt,bodydiode](npn4){};%1ряд
 \draw (npn1.S) -- (npn4.D);
 
+% найдем положение плюсовой шины
+\path let \p1 = (npn1.D) in node(plus)  at (0,\y1) {};
+\draw (0,0) to[C] (plus);
 
-\draw(3,3.5)node[nigbt,bodydiode](npn3){};%{\tiny{$VT_3$}};% 2 ряд 
-\draw (3,1) node[nigbt,bodydiode](npn6){};%{\tiny{$VT_6$}};% 2ряд
+\draw(2.75,2.65)node[nigbt,bodydiode](npn3){};% 2 ряд 
+\draw (2.75,.55) node[nigbt,bodydiode](npn6){};% 2ряд
 \draw (npn3.S) -- (npn6.D);
 
-
-\draw(4.75,3.5)node[nigbt,bodydiode](npn5){};%{\tiny{$VT_5$}};%последний ряд 
-\draw (4.75,1) node[nigbt,bodydiode](npn2){};%{\tiny{$VT_2$}};%последний ряд
+\draw (4.25,2.65)node[nigbt,bodydiode](npn5){};;%последний ряд 
+\draw (4.25,.55) node[nigbt,bodydiode](npn2){};%последний ряд
 \draw (npn5.S) -- (npn2.D);
 
+\draw (plus.center) --(npn1.D) node[above]{1} -- (npn3.D) node[above]{3} -- (npn5.D) node[above]{5}; % плюсовая шина
+\draw (0,0) -- (npn4.S) node[below]{4} -- (npn6.S) node[below]{6} -- (npn2.S) node[below]{2}; % минусовая шина
 
-\draw (0,4.05) -- (npn1.D) node[above]{1} -- (npn3.D) node[above]{3} -- (npn5.D) node[above]{5}; % плюсовая шина
-\draw (0,0.45) -- (npn4.S) node[below]{4} -- (npn6.S) node[below]{6} -- (npn2.S) node[below]{2}; % минусовая шина
-\draw (4.75,1.85)   node[left]{\small$C$} to[short,*-] (5.2,1.85) to[L] (6,1.85);    %катуха С
-\draw (3,2.25) node[left]{\small$B$} to[short,*-] (5.2,2.25) to[L] (6,2.25);  % катуха В
-\draw (1.25,2.65)   node[left]{\small$A$} to[short,*-] (5.2,2.65) to[L] (6,2.65);
-\draw (6,2.65)--(6,1.85);
+\draw ($(npn5.S)!0.75!(npn2.D)$)   node[left]{\scriptsize$C$} to[short,*-] ++ (0.25,0) to[L,american inductor] ++ (1,0) node(C) {};    %катуха С 
+\draw ($(npn3.S)!0.5!(npn6.D)$) node[left]{\scriptsize$B$} to[short,*-] ($(npn5.S)!0.5!(npn2.D)$) -- ++ (0.25,0) to[L,american inductor] ++ (1,0);  % катуха В 
+\draw ($(npn1.S)!0.25!(npn4.D)$) node[left]{\scriptsize$A$} to[short,*-] ($(npn5.S)!0.25!(npn2.D)$) -- ++ (0.25,0) to[L,american inductor] ++ (1,0) node(A) {}; 
+
+\draw (A.center)--(C.center);
 \end{circuitikz}
+\end{minipage}
 
+&
+	\only<2>{\hspace{-0.1cm}
+\begin{minipage}[h]{0.5\linewidth}
+\begin{circuitikz}
+\newcommand{\D}{2.4}
+	\draw[thin] (0,0) --({\D*cos(0)},{\D*sin(0)})   node(A) {} node[right] {\tiny(100)}; 
+	\draw[thin] (0,0) --({\D*cos(60)},{\D*sin(60)}) node(W) {} node[above right] {\tiny(110)}; 
+	\draw[thin] (0,0) --({\D*cos(120)},{\D*sin(120)}) node(B) {} node[above left] {\tiny(010)}; 
+	\draw[thin] (0,0) --({\D*cos(180)},{\D*sin(180)}) node(U) {} node[left] {\tiny(011)};
+	\draw[thin] (0,0) --({\D*cos(240)},{\D*sin(240)}) node(C) {} node[below left] {\tiny(001)};
+	\draw[thin] (0,0) --({\D*cos(300)},{\D*sin(300)}) node(V) {} node[below right] {\tiny(101)}; 
+	\draw[thin] (A.center) -- (W.center) -- (B.center) -- (U.center) -- (C.center) -- (V.center) -- (A.center);
+\end{circuitikz}
+\end{minipage}
+	}
+\end{tabular}
 \end{frame}
 
 \begin{frame}
