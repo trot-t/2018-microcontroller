@@ -159,7 +159,7 @@
 %\end{frame}
 
 \begin{frame}
-\frametitle{\small инвертор}
+\frametitle{\small инвертор напряжения}
 \hspace{-1.2cm}
 \begin{tabular}{cc} 
 \begin{minipage}[h]{0.5\linewidth}
@@ -200,6 +200,7 @@
 \begin{minipage}[h]{0.5\linewidth}
 \begin{circuitikz}
 \newcommand{\D}{2.4}
+\newcommand{\I}{1.85}
 	\draw[thin] (0,0) --({\D*cos(0)},{\D*sin(0)})   node(A) {} node[right] {\tiny(100)}; 
 	\draw[thin] (0,0) --({\D*cos(60)},{\D*sin(60)}) node(W) {} node[above right] {\tiny(110)}; 
 	\draw[thin] (0,0) --({\D*cos(120)},{\D*sin(120)}) node(B) {} node[above left] {\tiny(010)}; 
@@ -207,6 +208,8 @@
 	\draw[thin] (0,0) --({\D*cos(240)},{\D*sin(240)}) node(C) {} node[below left] {\tiny(001)};
 	\draw[thin] (0,0) --({\D*cos(300)},{\D*sin(300)}) node(V) {} node[below right] {\tiny(101)}; 
 	\draw[thin] (A.center) -- (W.center) -- (B.center) -- (U.center) -- (C.center) -- (V.center) -- (A.center);
+	\draw[->,>=stealth',thick,red] (0,0) -- ({\I*cos(25)},{\I*sin(25)});
+	\draw[very thin,red,dashed] (0,0) circle ({\I});
 \end{circuitikz}
 \end{minipage}
 	}
@@ -226,29 +229,11 @@ $$
 \draw[->, very thin,>=stealth'] (0,0) -- (1.00, 0.00);
 \draw[->, very thin,>=stealth'] (0,0) -- ({cos(120)},{sin(120)});
 \draw[->, very thin,>=stealth'] (0,0) -- ({cos(240)},{sin(240)});
-%\draw[->, very thin] (0,0) -- (0.95, 0.31);
-%\draw[->, very thin] (0,0) -- (0.81, 0.59);
-%\draw[->, very thin] (0,0) -- (0.59, 0.81);
+
 \draw[yellow, very thick,->,>=stealth'] (0,0) -- (0.59,0);
 \draw[green, very thick,->,>=stealth'] (0,0) -- (-0.20,0.35);
 \draw[red, very thick,->,>=stealth'] (0,0) -- (0.50,0.86);
 \draw[->,thick] (0,0) -- (0.59, 0.81) node[above right] {$\vec{f}$};
-%\draw[->, very thin] (0,0) -- (0.31, 0.95);
-%\draw[->, very thin] (0,0) -- (0.00, 1.00);
-%\draw[->, very thin] (0,0) -- (-0.31, 0.95);
-%\draw[->, very thin] (0,0) -- (-0.59, 0.81);
-%\draw[->, very thin] (0,0) -- (-0.81, 0.59);
-%\draw[->, very thin] (0,0) -- (-0.95, 0.31);
-%\draw[->, very thin] (0,0) -- (-1.00, 0.00);
-%\draw[->, very thin] (0,0) -- (-0.95, -0.31);
-%\draw[->, very thin] (0,0) -- (-0.81, -0.59);
-%\draw[->, very thin] (0,0) -- (-0.59, -0.81);
-%\draw[->, very thin] (0,0) -- (-0.31, -0.95);
-%\draw[->, very thin] (0,0) -- (-0.00, -1.00);
-%\draw[->, very thin] (0,0) -- (0.31, -0.95);
-%\draw[->, very thin] (0,0) -- (0.59, -0.81);
-%\draw[->, very thin] (0,0) -- (0.81, -0.59);
-%\draw[->, very thin] (0,0) -- (0.95, -0.31);
 \end{tikzpicture} 
 \end{minipage}
 &
@@ -363,7 +348,7 @@ $$
 
 \begin{frame}
 \frametitle{\smallПеревод весов дискретных состояний ключей в расходы ШИМ}
-	\hspace{-1.7cm}
+%	\hspace{-1cm}
 \begin{tabular}{cc}
 \begin{minipage}[h]{0.5\linewidth}
 \begin{tikzpicture}[scale=0.5]
@@ -539,7 +524,7 @@ $
 $
 };
 \end{tikzpicture}
-Делитель частоты физически реализуется счетчиком пропусков событий. 0 пропусков $\equiv$ делениe на 1. Один пропуск $\equiv$  делению на 2.
+Делитель частоты физически реализуется счетчиком пропусков событий. \\0 пропусков $\equiv$ делениe на 1. Один пропуск $\equiv$  деление на 2.
 }
 \end{frame}
 
@@ -555,5 +540,25 @@ $
 
 \end{frame}
 
+\begin{frame}
+\frametitle{\smallЛитература}
+	\small{
+\begin{thebibliography}{7}
+	\bibitem{Gorev}Горев А.А. Переходные процессы синхронной машины. -- М.,Л., Гос. энергетическое изд., 1950. -- 551 c.
+        \bibitem{Sokolovsky}Соколовский Г.Г. Электроприводы переменного тока с частотным регулированием: Учебник для студ. высш.учеб.заведений.
+                -- М. «Академия», 2007 - 272 с.
+	\bibitem{Proshivka}Заливка прошивки в STM32 через USB \url{https://habr.com/post/403007/}
+	\bibitem{Zagruzchik}Программа-загрузчик \url{github.com/rogerclarkmelbourne/Arduino\_STM32}
+	\bibitem{MexBios}Мехбиос \url{http://www.mechatronica-pro.com}
+	\bibitem{ControlSUITE} \url{https://www.ti.com/tool/CONTROLSUITE}
+		%описание на русском https://habr.com/post/403007/\\
+%на английском %http://www.rogerclark.net/stm32f103-and-maple-maple-mini-with-arduino-1-5-x-ide/
+%
+%       Сама  программа загрузчик -- \\
+%{\small https://github.com/rogerclarkmelbourne/Arduino\_STM32}
+
+\end{thebibliography}
+}
+\end{frame}
 \end{document}
 
