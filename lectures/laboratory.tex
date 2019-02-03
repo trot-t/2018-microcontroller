@@ -4,6 +4,7 @@
 \usepackage[english,russian]{babel}
 \usepackage{tikz}
 \usepackage[european,cuteinductors,smartlabels]{circuitikz}
+\usetikzlibrary{arrows.meta, shadows}
 
 \usepackage{amssymb,amsfonts,amsmath,mathtext}
 \usepackage{amssymb}
@@ -359,6 +360,7 @@ $$
 $$
 \end{frame}
 
+
 \begin{frame}
 \frametitle{\smallПеревод весов дискретных состояний ключей в расходы ШИМ}
 	\hspace{-1.7cm}
@@ -412,6 +414,133 @@ $$
 \end{tikzpicture}
 \end{minipage}
 \end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\smallстиль программирования: Макросы вместо функций}
+	\vspace{-0.01cm}
+% Стиль программирования
+\begin{tikzpicture}
+        \newcommand{\D}{0.5}
+        \newcommand{\W}{2}
+        \newcommand{\h}{3}
+        \draw (0,0) rectangle ({\W*\D},{\h*\D});
+        \draw  ({\W*\D/2},{\h*\D/2}) node() {$\begin{array}{c}\tiny{\textcyrillic{ко-}}\\\tiny{\textcyrillic{вариант}}\end{array}$};
+        \draw[->] ({-0.8*\W*\D}, {2/3*\h*\D}) -- ({0*\W*\D}, {2/3*\h*\D}) node[midway, above=-0.12cm]() {\tiny$\varphi$}; 
+        \draw[->] ({-0.8*\W*\D}, {1/3*\h*\D}) -- ({0*\W*\D}, {1/3*\h*\D}) node[midway, above=-0.12cm] {\tiny$\mid\!\!U\!\!\mid$}; 
+        \draw[->] ({\W*\D}, {4/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$\varphi$};
+        \draw[->] ({\W*\D}, {3/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$z_a$};
+        \draw[->] ({\W*\D}, {2/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$z_b$};
+        \draw[->] ({\W*\D}, {1/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$z_c$};
+        \draw ({2*\W*\D},0) rectangle ({2*\W*\D+\W*\D},{\h*\D});
+        \draw  ({2*\W*\D + \W*\D/2},{\h*\D/2}) node() {$\begin{array}{c}\tiny{\textcyrillic{контра-}}\\\tiny{\textcyrillic{вариант}}\end{array}$};
+        \draw[->] ({3*\W*\D}, {4/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny{$sgmnt$}};
+        \draw[->] ({3*\W*\D}, {3/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$m_a$};
+        \draw[->] ({3*\W*\D}, {2/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$m_b$};
+        \draw[->] ({3*\W*\D}, {1/5*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$m_c$};
+        \draw ({4*\W*\D},0) rectangle ({4*\W*\D+\W*\D},{\h*\D});
+        \draw  ({4*\W*\D + \W*\D/2},{\h*\D/2}) node() {\footnotesize{$pwm$}};   
+        \draw[->] ({5*\W*\D}, {3/4*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$CCR1$};
+        \draw[->] ({5*\W*\D}, {2/4*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$CCR2$};
+        \draw[->] ({5*\W*\D}, {1/4*\h*\D}) --++ ({\W*\D}, 0) node[midway, above=-0.12cm]() {\tiny$CCR3$};
+\end{tikzpicture}
+\vspace{-0.3cm}
+\tiny{
+\begin{verbatim}
+typedef struct {
+   double U;        // вектор U (нормированный на 1)
+   double fi;       // угол в радианах 
+   double Za,Zb,Zc; // проекции вектора U на фазы A,B,C
+   double ax,ay;    //                                   фазы A
+   double bx,by;    //    единичный вектор в направлении фазы B
+   double cx,cy;    //                                   фазы C 
+} COVAR; 
+
+
+#define COVAR_DEFAULTS { 0, 0, 0, 0, 0, 1., 0., -.5, sqrt(3.)/2., -.5, -sqrt(3.)/2., 0, 0 } 
+
+#define COVAR_MACRO(v) \ 
+	\
+   v.Za = v.U*cos(v.fi)*v.ax + v.U*sin(v.fi)*v.ay; \
+   v.Zb = v.U*cos(v.fi)*v.bx + v.U*sin(v.fi)*v.by; \
+   v.Zc = v.U*cos(v.fi)*v.cx + v.U*sin(v.fi)*v.cy;
+
+
+/* использование макросов */
+   COVAR a = COVAR_DEFAULTS;
+   a.U = X;
+   a.fi = Fi;
+   COVAR_MACRO(a); 
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}
+%\frametitle{\smallСинхронизация потоков выполнения}
+\frametitle{\smallТаймеры, теневые регистры, прерывания, поток вычислений}
+\begin{tikzpicture}[scale=0.9]
+\ctikzset{bipoles/length=1.05cm}
+\newcommand{\D}{2.1}
+\newcommand{\DD}{2.5}
+\newcommand{\baset}{2}  % основной уровень таймера
+\newcommand{\basem}{1.2} % основной уровень подпрограммы
+\newcommand{\lineL}{0.8} % длительность подпрограммы
+\newcommand{\stub}{0.15} % высота/ширина пенька прерывания
+\draw[->,>=stealth'] (0,0) -- (11,0) node[below] {$t$};
+\draw[red,very thick] ({0},{\baset}) -- ({0+\D},{\baset+\D}) -- ({0+\D},{\baset}) -- ({0+2*\D},{\baset+ \D}) -- ({0+2*\D},{\baset}) -- ({0+2*\D+\DD},{\baset+\DD}) --
+({0+2*\D+\DD},{\baset}) -- ({0+2*\D+2*\DD},{\baset+\DD}) -- ({0+2*\D+2*\DD},{\baset}) -- ({0+2*\D+2.5*\DD},{\baset+0.5*\DD});
+	\draw[blue,thick,->] (0,0.6) -- (8,0.6) node[right] {\small{основная программа}};
+	\draw[green] (7.6,{\basem}) node[right] {\small{обработка прерывания}};
+	\draw[red]  (10,{\baset}) node[right] {\small{таймер}};
+        \draw ({0+\D},0) -- ({0+\D},{\stub}) -- ({0+\D+\stub},{\stub}) --  ({0+\D+\stub},0);
+        \draw ({0+2*\D},0) -- ({0+2*\D},{\stub}) -- ({0+2*\D+\stub},{\stub}) --  ({0+2*\D+\stub},0);
+        \draw ({0+2*\D+\DD},0) -- ({0+2*\D+\DD},{\stub}) -- ({0+2*\D+\DD+\stub},{\stub}) --  ({0+2*\D+\DD+\stub},0);
+        \draw ({0+2*\D+2*\DD},0) -- ({0+2*\D+2*\DD},{\stub}) -- ({0+2*\D+2*\DD+\stub},{\stub}) --  ({0+2*\D+2*\DD+\stub},0);
+
+        \draw[green] ({0+\D + \lineL},{\basem}) to[L,color=green] ({0+\D},{\basem});
+\draw[very thin,->,>=stealth'] ({\D},{\baset}) -- ({\D},{\basem});
+        \draw[thin,yellow] ({0},{\D+\D/4}) -- ({2*\D},{\D+\D/4});
+        \draw[thin,green] ({0},{\D+\D/3}) -- ({2*\D},{\D+\D/3});
+        \draw[thin,red] ({0},{\D+3*\D/4}) -- ({2*\D},{\D+3*\D/4});
+\draw[very thin,->,>=stealth'] ({\D+\lineL},{\basem}) -- ({\D+\lineL},{\D+3*\DD/4});
+\draw[very thin,->,>=stealth'] ({\D+\lineL+0.03},{\basem}) -- ({\D+\lineL+0.03},{\D+\DD/3});
+\draw[very thin,->,>=stealth'] ({\D+\lineL+0.06},{\basem}) -- ({\D+\lineL+0.06},{\D+\DD/6});
+        \draw[thin,yellow] ({2*\D},{\D+\DD/6}) -- ({2*\D+\DD},{\D+\DD/6});
+        \draw[thin,green] ({2*\D},{\D+\DD/3}) -- ({2*\D+\DD},{\D+\DD/3});
+        \draw[thin,red] ({2*\D},{\D+3*\DD/4}) -- ({2*\D+\DD},{\D+3*\DD/4});
+\draw[green] ({2*\D+\lineL},{\basem}) to[L,color=green] ({2*\D},{\basem});
+\draw[very thin,->,>=stealth'] ({2*\D},{\baset}) -- ({2*\D},{\basem});
+\draw[very thin,->,>=stealth']  ({2*\D + \lineL},{\basem}) -- ({2*\D + \lineL},{\D+2*\DD/3});
+\draw[very thin,->,>=stealth']  ({2*\D + \lineL+0.03},{\basem}) -- ({2*\D + \lineL+0.03},{\D+\DD/2});
+\draw[very thin,->,>=stealth']  ({2*\D + \lineL+0.06},{\basem}) -- ({2*\D + \lineL+0.06},{\D+\DD/6*1.3});
+\draw[yellow, dashed]  ({\D + \lineL}, {\D+\DD/6}) -- ({2*\D},{\D+\DD/6});
+\draw[green, dashed]  ({\D + \lineL}, {\D+\DD/3}) -- ({2*\D},{\D+\DD/3});
+\draw[red, dashed]  ({\D + \lineL}, {\D+3*\DD/4}) -- ({2*\D},{\D+3*\DD/4});
+        \draw[thin,yellow] ({2*\D+\DD},{\D+\DD/6*1.3}) -- ({2*\D+2*\DD},{\D+\DD/6*1.3});
+        \draw[thin,green] ({2*\D+\DD},{\D+\DD/2}) -- ({2*\D+2*\DD},{\D+\DD/2});
+        \draw[thin,red] ({2*\D+\DD},{\D+2*\DD/3}) -- ({2*\D+2*\DD},{\D+2*\DD/3});
+\draw[yellow, dashed]  ({2*\D + \lineL}, {\D+\DD/6*1.3}) -- ({2*\D+\DD},{\D+\DD/6*1.3});
+\draw[green, dashed]  ({2*\D + \lineL}, {\D+\DD/2}) -- ({2*\D+\DD},{\D+\DD/2});
+\draw[red, dashed]  ({2*\D + \lineL}, {\D+2*\DD/3}) -- ({2*\D+\DD},{\D+2*\DD/3});
+\draw[green] ({2*\D+\DD+\lineL},{\basem}) to[L,color=green] ({2*\D+\DD},{\basem});
+\draw[very thin,->,>=stealth'] ({2*\D+\DD},{\baset}) -- ({2*\D+\DD},{\basem});
+\draw[very thin,->,>=stealth']  ({2*\D+\DD + \lineL},{\basem}) -- ({2*\D+\DD + \lineL},{\D+2*\DD/3});
+\end{tikzpicture}
+%\vspace{0.5cm}
+	\small{
+\begin{tikzpicture}[
+block/.style = {rectangle, rounded corners, fill=gray!30,
+                text width=0.85\linewidth, align=left,
+                drop shadow}
+]
+	\node[block] {
+$
+\textcyrillic{делитель частоты} = \frac{\textcyrillic{исходная частота}}{\textcyrillic{коэффициент деления}} - 1
+$
+};
+\end{tikzpicture}
+Делитель частоты физически реализуется счетчиком пропусков событий. 0 пропусков $\equiv$ делениe на 1. Один пропуск $\equiv$  делению на 2.
+}
 \end{frame}
 
 \begin{frame}
