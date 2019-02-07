@@ -46,12 +46,12 @@
 \begin{document}
 \title{\small{Создание и апробирование лабораторной установки по учебному курсу Микроконтроллеры по теме \enquote{Генерация векторного ШИМ для управления трехфазным асинхронным двигателем}.}}
 \author{\small{%
-\emph{авторы:}~Василенко Виктор Андреевич\\%
-\emph{}~Вербова Алина\\
-\emph{}~Илюшин Антон Геннадьевич\\
-\emph{}~Маслов Иван Андреевич\\
+\emph{авторы:}~Василенко Владимир Андреевич, гр.3403\\%
+\emph{}~Вербова Алина Владимировна, гр.5405\\
+\emph{}~Илюшин Антон Геннадьевич, гр.3405\\
+\emph{}~Маслов Иван Андреевич, гр.3405\\
 \emph{}~Прокшин Артем Николаевич\\% 
-\emph{}~Халявин Дмитрий Игоревич}}
+\emph{}~Халявин Дмитрий Игоревич, гр.4405}}
 
 
 
@@ -252,24 +252,42 @@ $$
 \begin{frame}
 \frametitle{\smallЛекция 2 контравариантные координаты -- управление}
 	\begin{tikzpicture}[scale=0.8]
-\newcommand{\D}{8}
+\newcommand{\D}{8} % длина стороны треугольника
 \newcommand{\vx}{5}
 \newcommand{\vy}{2}
         \draw[thick] (0,0) node[below left] {{\large${\bf m_1}$}} -- ({\D},0) node[below right] {{\large${\bf m_2}$}} -- ({\D/2},{\D*sqrt(3)/2}) node[above=8] {{\large${\bf m_3}$}} -- (0,0);
 %       \draw[red,thick,->,>=stealth'] (0,0) -- ({\vx}, {\vy}) node(v) {};
-	\draw[thin] ({\vx + \vy/tan(60)},0) -- (\vx,\vy) -- ({(\vx + \vy/tan(60))/2}, {(\vx + \vy/tan(60))*sqrt(3)/2} ); % контравариантная на ось фазы C и на ось фазы А
+%	\draw[thin] ({\vx + \vy/tan(60)},0) -- (\vx,\vy) -- ({(\vx + \vy/tan(60))/2}, {(\vx + \vy/tan(60))*sqrt(3)/2} ); % контравариантная на ось фазы C и на ось фазы А
 
 	% сам вектор 
         \draw[red,very thick,->,>=stealth'] (0,0) -- ({\vx}, {\vy}) node(v) {};
-        \draw ({\vx}, {\vy})  node[above=0.25cm] {$O$};
 
+
+\only<1>{
+	\draw[thin] ({\vy/tan(60)} ,{\vy}) --  ({\vx}, {\vy}) -- ({\D - \vy/tan(60)},{\vy}); % node[midway, below right=-0.05cm] {$m_1$};	
+	\draw[very thin] (0,-1.5) -- (0,-1.5); % только для того чтобы выровнять 1й рисунок как и на остальных страницах
+}	
+	
+\only<2,3,4>{
+	
+	\draw[thin] ({\vx + \vy/tan(60)},0) -- (\vx,\vy) -- ({(\vx + \vy/tan(60))/2}, {(\vx + \vy/tan(60))*sqrt(3)/2} ); % контравариантная на ось фазы C и на ось фазы А
         % подписи внизу
         \draw[very thin] (0,-0.1) -- (0,-1.5);
         \draw ({\vx + \vy/tan(60)},-0.1) -- ({\vx + \vy/tan(60)},-0.8); \draw (\D,-0.1) -- (\D,-1.5);
-        \draw[very thin,<->,>=stealth'] (0,-0.5) --  ({\vx + \vy/tan(60)}, -0.5) node[midway, below] {$m_2+m_3$};
+        \draw[very thin,<->,>=stealth'] (0,-0.4) --  ({\vx + \vy/tan(60)}, -0.4) node[midway, below] {$m_2+m_3$};
         \draw[very thin,<->,>=stealth']  ({\vx + \vy/tan(60)}, -0.4) -- (\D, -0.4) node[midway, below] {$m_1$};
+}
+\only<2>{	\draw[very thin] (0,0) -- ({\D*cos(30)*(sqrt(3)/2)},{\D*sin(30)*(sqrt(3)/2)});  % перпендикуляр
+        \newcommand{\perpend}{0.3} % для перпендикуляра
+		\draw ({\D*cos(30)*(sqrt(3)/2) + \perpend*cos(120)},{\D*sin(30)*(sqrt(3)/2) + \perpend*sin(120)}) --++ ({\perpend*cos(210)},{\perpend*sin(210)}) --++ ({\perpend*cos(300)},{\perpend*sin(300)});
+	% конец вектора
+	\draw ({\vx}, {\vy})  node[below=0.15cm] {\small$O^\prime$};	
 
-\only<2,3>{        
+
+	}
+\only<3,4>{
+	% конец вектор
+	\draw ({\vx}, {\vy})  node[above=0.25cm] {$O^\prime$};
         \draw[thin] ({\vy/tan(60)} ,{\vy}) --  ({\vx}, {\vy}) -- ({\D - \vy/tan(60)},{\vy}) node[midway, below right=-0.05cm] {$m_1$};
         \draw[thin] ({\vx-\vy/tan(60)},0 ) -- (\vx,\vy); 
         \draw[thin] ({\D/2 + (\vx-\vy/tan(60))/2}, {\D*sqrt(3)/2 - (\vx-\vy/tan(60))*sqrt(3)/2}) -- (\vx,\vy) node[midway, above=0.25cm] {$m_1$}; % контравариантная на ось фазы B || [1-3]
@@ -301,7 +319,7 @@ $$
         \draw[very thin,<->,>=stealth']  ({(\vx + \vy/tan(60))/2 - 0.5*sqrt(3)/2}, {(\vx + \vy/tan(60))*sqrt(3)/2 + 0.5/2}) --
                                          ({\D/2 - 0.5*sqrt(3)/2},{\D*sqrt(3)/2 + 0.5/2}) node[midway, above left] {$m_1$}; 
 }
-\only<3>{
+\only<4>{
 	% вспомогательная ось B
         \draw[ultra thin] ({-0.7*cos(-60)},{-0.7*sin(-60)}) -- ({1.2*cos(-60)},{1.2*sin(-60)});
         \newcommand{\bb}{(\vx*cos(-60) + \vy*sin(-60))}
