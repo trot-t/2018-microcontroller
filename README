@@ -1,0 +1,47 @@
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
+
+
+sudo adduser admin
+sudo usermod -aG wheel admin
+sudo passwd admin
+# проверяем вход от admin
+
+# проверяем работает ли sudo
+sudo ls
+
+# удаляем пользователя st1 из группы wheel
+sudo gpasswd -d st1 wheel
+# ======
+sudo adduser st1
+sudo passwd st1
+
+# по загрузке смотрим какой по порядку стоит windows
+sudo vi /etc/default/grub
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+# для машин без UEFI
+#sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+sudo dnf -y remove gnome-initial-setup
+
+# все вместе
+sudo dnf -y install mc gcc-c++ arm-none-eabi-gcc-cs-c++ arm-none-eabi-gdb  texlive-collection-langcyrillic texlive-cm-super texlive-circuitikz texlive-cite texlive-cancel texstudio ngspice geda-gschem geda-gnetlist pcb geda-utils geda-gattrib eclipse eclipse-cdt
+
+
+sudo dnf install mc
+sudo dnf install gcc-c++ 
+sudo dnf install arm-none-eabi-gcc-cs-c++ arm-none-eabi-gdb 
+sudo dnf install eclipse eclipse-cdt
+
+sudo dnf install texlive-collection-langcyrillic
+sudo dnf install texlive-cm-super texlive-circuitikz texlive-cite texlive-cancel
+
+sudo dnf install texstudio
+
+sudo dnf install ngspice geda-gschem geda-gnetlist geda-gsch2pcb pcb geda-utils geda-gattrib
+
+
+
+
+
